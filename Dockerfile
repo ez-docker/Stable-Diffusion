@@ -6,16 +6,21 @@ RUN apk add --no-cache \
         bash \
         curl \
         git \
-        gcc \
-        build-base \
+        gcc
+
+RUN apk add --no-cache build-base \
         libressl-dev \
         libffi-dev \
         libxml2-dev \
         libxslt-dev \
-        libjpeg-turbo-dev \
-        openblas-dev \
-        opencv-dev && \
-        ffmpeg
+        libjpeg-turbo-dev
+
+RUN apk add --no-cache openblas-dev
+
+RUN apk add --no-cache opencv-dev
+
+RUN apk add --no-cache ffmpeg
+
 RUN pip install torch torchvision torchaudio --no-cache-dir
 RUN pip install ftfy regex tqdm omegaconf requests --no-cache-dir
 RUN pip install basicsr clip --no-cache-dir && \
