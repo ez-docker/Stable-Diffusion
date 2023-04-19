@@ -16,13 +16,19 @@ RUN pip install --upgrade pip && \
 	pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
 RUN cd / && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
- 	mv \stable-diffusion-webui \app && cd /app && \
- 	pip install -r requirements_versions.txt && \
+	mv \stable-diffusion-webui \app && cd /app
+RUN pip install -r requirements_versions.txt
+RUN export COMMANDLINE_ARGS=--skip-torch-cuda-test
+RUN python launch.py
+
+# RUN cd / && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
+# 	mv \stable-diffusion-webui \app && cd /app && \
+# 	pip install -r requirements_versions.txt && \
 # 	cd models/Stable-diffusion && \
 # 	wget https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/resolve/main/sd-v1-4-full-ema.ckpt && \
 # 	wget -O launch.py https://raw.githubusercontent.com/eclairkk/Stable-Diffusion/master/launch_cpu.py && \
- 	export COMMANDLINE_ARGS=--skip-torch-cuda-test && \
-	python launch.py
+# 	export COMMANDLINE_ARGS=--skip-torch-cuda-test && \
+#	python launch.py
 
 
 WORKDIR /app
