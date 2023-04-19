@@ -23,7 +23,7 @@ RUN python3.10 -m ensurepip --default-pip \
 RUN pip install --upgrade pip && \
 	pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
-
+RUN pip install httpcore<=0.15
 RUN pip install blendmodes==2022
 RUN pip install transformers==4.25.1
 RUN pip install accelerate==0.12.0
@@ -52,8 +52,7 @@ RUN pip install inflection==0.5.1
 RUN pip install GitPython==3.1.30
 RUN pip install torchsde==0.2.5
 RUN pip install safetensors==0.3.0
-RUN pip install httpcore<=0.15
-RUN pip install fastapi==0.94.0
+RUN pip install httpcore<=0.15RUN pip install fastapi==0.94.0
 
 RUN cd / && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
 	mv \stable-diffusion-webui \app && cd /app
