@@ -15,14 +15,17 @@ jobs:  # workflow中的job
     runs-on: ubuntu-latest   # job运行的基础环境
 
     steps:  # 一个job由一个或多个step组成
-      - name: Check out the repo
-        uses: actions/checkout@v2   # 官方的action，获取代码
+      - uses: actions/checkout@v3   # 官方的action 从GitHub仓库中检出代码
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v1  # 三方的action操作， 执行docker login
+      - name: Get the version # 获取代码中的版本信息
+        id: vars # 将版本信息设置为输出变量
+        run: echo ::set-output name=tag::$(echo ${GITHUB_REF:14})
+
+      - name: Login to DockerHub // 登录到DockerHub
+        uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}  # 配置dockerhub的认证，在Github项目主页 【Settings】 -> 【Secrets】 添加对应变量
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }} // DockerHub用于认证和授权的用户名
+          password: ${{ secrets.DOCKER_PASSWORD }} // 对应的密码
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -30,10 +33,11 @@ jobs:  # workflow中的job
         with:
           images: jhao104/proxy_pool
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2 # docker build & push
+      - name: Build # 使用Docker Buildx构建并推送Docker镜像
+        uses: docker/build-push-action@v4 
+
         with:
           context: .
-          push: true
+          push: true # 是否将构建好的镜像推送到仓库
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
