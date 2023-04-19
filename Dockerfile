@@ -1,7 +1,8 @@
 FROM python:3.10-alpine3.17
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache \
+RUN apk update && apk upgrade
+
+RUN apk add --no-cache \
         bash \
         curl \
         git \
@@ -14,10 +15,10 @@ RUN apk update && apk upgrade && \
         libjpeg-turbo-dev \
         openblas-dev \
         opencv-dev && \
-    apk add --no-cache ffmpeg && \
-    pip install torch torchvision torchaudio --no-cache-dir && \
-    pip install ftfy regex tqdm omegaconf requests && \
-    pip install basicsr clip && \
+        ffmpeg
+RUN pip install torch torchvision torchaudio --no-cache-dir
+RUN pip install ftfy regex tqdm omegaconf requests --no-cache-dir
+RUN pip install basicsr clip --no-cache-dir && \
     apk del build-base && \
     rm -rf /var/cache/apk/*
 
