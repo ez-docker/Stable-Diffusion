@@ -2,22 +2,29 @@
 # docker run -it --name sd sd
 # docker rm -f sd
 
-FROM python:3.10-alpine3.17
+FROM ubuntu:20.04
 
+# 更新源并安装所需程序
+RUN apt-get update \
+    && apt-get install -y wget curl git build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev
 
-RUN apk update && apk upgrade && \
-	apk add --no-cache \
-        bash \
-        curl \
-        git \
-        wget
+# 下载并编译Python 3.10.6
+RUN wget https://www.python.org/ftp/python/3.10.6/Python-3.10.6.tgz \
+    && tar xvf Python-3.10.6.tgz \
+    && cd Python-3.10.6 \
+    && ./configure \
+    && make -j 4 \
+    && make install
+
+# 更新pip并安装依赖项
+RUN python3.10 -m ensurepip --default-pip \
+    && python3.10 -m pip install -U pip
 
 RUN pip install --upgrade pip && \
 	pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
-RUN cd / && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
-	mv \stable-diffusion-webui \app && cd /app
 
+RUN pip install blendmodes==2022
 RUN pip install transformers==4.25.1
 RUN pip install accelerate==0.12.0
 RUN pip install basicsr==1.4.2
@@ -48,7 +55,8 @@ RUN pip install safetensors==0.3.0
 RUN pip install httpcore<=0.15
 RUN pip install fastapi==0.94.0
 
-RUN pip install -r requirements_versions.txt
+RUN cd / && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
+	mv \stable-diffusion-webui \app && cd /app
 RUN export COMMANDLINE_ARGS=--skip-torch-cuda-test
 RUN python launch.py
 
