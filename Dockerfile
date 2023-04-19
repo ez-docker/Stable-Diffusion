@@ -17,7 +17,7 @@ RUN apk add --no-cache build-base \
 
 RUN apk add --no-cache openblas-dev
 
-RUN apk add --no-cache opencv-dev
+
 
 RUN apk add --no-cache ffmpeg
 
