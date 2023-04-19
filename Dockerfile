@@ -15,8 +15,7 @@ RUN pip install torch torchvision torchaudio --index-url https://download.pytorc
 
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
 	mv \stable-diffusion-webui \app && cd /app && \
-	wget https://raw.githubusercontent.com/eclairkk/Stable-Diffusion/master/launch_cpu.py launch.py
-
+	wget -O launch.py https://raw.githubusercontent.com/eclairkk/Stable-Diffusion/master/launch_cpu.py
 
 
 		
