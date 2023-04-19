@@ -23,17 +23,3 @@ jobs:  # workflow中的job
           username: ${{ secrets.DOCKER_USERNAME }} // DockerHub用于认证和授权的用户名
           password: ${{ secrets.DOCKER_PASSWORD }} // 对应的密码
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3  # 抽取项目信息，主要是镜像的tag
-        with:
-          images: jhao104/proxy_pool
-
-      - name: Build # 使用Docker Buildx构建并推送Docker镜像
-        uses: docker/build-push-action@v4 
-
-        with:
-          context: .
-          push: true # 是否将构建好的镜像推送到仓库
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
