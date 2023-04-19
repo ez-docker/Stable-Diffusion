@@ -3,4 +3,4 @@ version: '3'
 services:
   app:
     build: .
-    command: python app1.py
+    command: python app2.py
