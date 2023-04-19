@@ -6,19 +6,15 @@ RUN apk add --no-cache \
         bash \
         curl \
         git \
-        wget \
-        unzip
+        wget
+
+
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
+        cd stable-diffusion-webui && \
+        pip install -r requirements_versions.txt && \
+        cd models/Stable-diffusion && \
+        wget https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/resolve/main/sd-v1-4-full-ema.ckpt && \
+        export COMMANDLINE_ARGS=--skip-torch-cuda-test && \
 
 WORKDIR /app
-RUN cd /app \
-        && wget https://github.com/cmdr2/stable-diffusion-ui/releases/download/v2.5.24/Easy-Diffusion-Linux.zip \
-        && unzip Easy-Diffusion-Linux.zip \
-        && cd /app/easy-diffusion \
-        && chmod +x start.sh \
-        && chmod +x /app/easy-diffusion/scripts/bootstrap.sh \
-        && chmod +x /app/easy-diffusion/scripts/functions.sh \
-        && chmod +x /app/easy-diffusion/scripts/on_env_start.sh \
-        && bash start.sh
-        
-
-CMD ["/bin/bash"]
+CMD [ "python", "launch.py", "--no-half", "--port", "1234", "--listen" ]
