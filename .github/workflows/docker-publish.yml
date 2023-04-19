@@ -7,6 +7,12 @@ on:
     tags:
       - '*'
 
+env:
+  DOCKER_REGISTRY: docker.io
+  DOCKER_IMAGE_NAME: my-docker-image
+  DOCKER_IMAGE_TAG: ${{ github.sha }}
+
+
 jobs:
 
   push_to_registry:
