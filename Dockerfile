@@ -10,7 +10,8 @@ RUN apk add --no-cache \
 
 
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
-        cd stable-diffusion-webui && \
+        mv stable-diffusion-webui /app && \
+        cd /app && \
         pip install -r requirements_versions.txt && \
         cd models/Stable-diffusion && \
         wget https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/resolve/main/sd-v1-4-full-ema.ckpt && \
