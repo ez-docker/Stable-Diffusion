@@ -14,8 +14,7 @@ RUN apk update && apk upgrade && \
 
 RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
-
-RUN cd / && git clone https://github.com/TencentARC/GFPGAN.git@8d2447a2d918f8eba5a4a01463fd48e45126a379 && \
+RUN cd / && git clone https://github.com/TencentARC/GFPGAN.git && \
 	cd /GFPGAN && \
 	pip install -r requirements.txt && \
 	python setup.py develop
