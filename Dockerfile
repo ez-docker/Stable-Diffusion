@@ -17,7 +17,7 @@ RUN pip install --upgrade pip && \
 
 RUN cd / && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
 	mv \stable-diffusion-webui \app && cd /app
-RUN pip install blendmodes
+
 RUN pip install transformers==4.25.1
 RUN pip install accelerate==0.12.0
 RUN pip install basicsr==1.4.2
