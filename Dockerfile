@@ -17,14 +17,10 @@ RUN apk update && apk upgrade && \
     apk add --no-cache ffmpeg && \
     pip install torch torchvision torchaudio --no-cache-dir && \
     pip install ftfy regex tqdm omegaconf requests && \
-    pip install clip-standalone && \
+    pip install basicsr clip && \
     apk del build-base && \
     rm -rf /var/cache/apk/*
 
 WORKDIR /app
-
-
-# 安装 GFPGAN
-RUN pip install basicsr clip
 
 CMD ["/bin/bash"]
