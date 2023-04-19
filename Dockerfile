@@ -60,7 +60,7 @@ RUN python launch.py
 # 	wget -O launch.py https://raw.githubusercontent.com/eclairkk/Stable-Diffusion/master/launch_cpu.py && \
 # 	export COMMANDLINE_ARGS=--skip-torch-cuda-test && \
 #	python launch.py
-
+#
 
 WORKDIR /app
 CMD [ "python", "launch.py", "--no-half", "--port", "1234", "--listen" ]
