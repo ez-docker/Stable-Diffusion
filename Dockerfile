@@ -6,27 +6,19 @@ RUN apk add --no-cache \
         bash \
         curl \
         git \
-        gcc
-
-RUN apk add --no-cache build-base \
-        libressl-dev \
-        libffi-dev \
-        libxml2-dev \
-        libxslt-dev \
-        libjpeg-turbo-dev
-
-RUN apk add --no-cache openblas-dev
-
-
-
-RUN apk add --no-cache ffmpeg
-
-RUN pip install torch torchvision torchaudio --no-cache-dir
-RUN pip install ftfy regex tqdm omegaconf requests --no-cache-dir
-RUN pip install basicsr clip --no-cache-dir && \
-    apk del build-base && \
-    rm -rf /var/cache/apk/*
+        wget \
+        unzip
 
 WORKDIR /app
+RUN cd /app \
+        && wget https://github.com/cmdr2/stable-diffusion-ui/releases/download/v2.5.24/Easy-Diffusion-Linux.zip \
+        && unzip Easy-Diffusion-Linux.zip \
+        && cd /app/easy-diffusion \
+        && chmod +x start.sh \
+        && chmod +x /app/easy-diffusion/scripts/bootstrap.sh \
+        && chmod +x /app/easy-diffusion/scripts/functions.sh \
+        && chmod +x /app/easy-diffusion/scripts/on_env_start.sh \
+        && bash start.sh
+        
 
 CMD ["/bin/bash"]
