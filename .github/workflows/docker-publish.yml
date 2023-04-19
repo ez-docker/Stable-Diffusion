@@ -17,10 +17,6 @@ jobs:  # workflow中的job
     steps:  # 一个job由一个或多个step组成
       - uses: actions/checkout@v3   # 官方的action 从GitHub仓库中检出代码
 
-      - name: Get the version # 获取代码中的版本信息
-        id: vars # 将版本信息设置为输出变量11
-        run: echo ::set-output name=tag::$(echo ${GITHUB_REF:14})
-
       - name: Login to DockerHub // 登录到DockerHub
         uses: docker/login-action@v2
         with:
