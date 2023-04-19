@@ -24,7 +24,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          
+          registry: ${{ env.DOCKER_REGISTRY }}
+
       # Docker Buildx 插件，以便于构建多平台镜像
       - name: Set up Buildx
         id: buildx
