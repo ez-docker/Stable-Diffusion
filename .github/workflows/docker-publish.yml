@@ -39,7 +39,8 @@ jobs:
         with:
           context: .
           push: true
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          # platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/amd64
           tags: |
             eclairkk/sd:23.4.19
             eclairkk/sd:latest
