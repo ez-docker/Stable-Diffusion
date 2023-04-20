@@ -1,73 +1,42 @@
-# docker build -t sd .
-# docker run -it --name sd sd
-# docker rm -f sd
+FROM nvidia/cuda:12.1.0-base-ubuntu20.04
 
-FROM ubuntu:20.04
+# 设置时区
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone
 
-# 更新源并安装所需程序
-RUN apt-get update \
-    && apt-get install -y wget curl git build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev
+# 替换Ubuntu 20.04系统源为阿里源
+RUN echo "deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse" > /etc/apt/sources.list \
+    && echo "deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse" >> /etc/apt/sources.list \
+    && echo "deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse" >> /etc/apt/sources.list \
+    && apt-get update && apt-get -y install curl wget git
 
-# 下载并编译Python 3.10.6
-RUN wget https://www.python.org/ftp/python/3.10.6/Python-3.10.6.tgz \
-    && tar xvf Python-3.10.6.tgz \
-    && cd Python-3.10.6 \
-    && ./configure \
-    && make -j 4 \
-    && make install
 
-# 更新pip并安装依赖项
-RUN python3.10 -m ensurepip --default-pip \
-    && python3.10 -m pip install -U pip
+# 安装 Miniconda
+# RUN curl -sLo /tmp/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+ENV CONDA_AUTO_UPDATE_CONDA=false
+RUN curl -sLo /tmp/miniconda.sh https://mirrors.ustc.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+    chmod +x /tmp/miniconda.sh && \
+    /tmp/miniconda.sh -b -p /opt/miniconda && \
+    rm -f /tmp/miniconda.sh && \
+    ln -s /opt/miniconda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/miniconda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "/opt/miniconda/bin/activate" >> ~/.bashrc && \
+    source ~/.bashrc
 
-RUN pip install --upgrade pip && \
-	pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
-RUN pip install httpcore<=0.15
-RUN pip install blendmodes==2022
-RUN pip install transformers==4.25.1
-RUN pip install accelerate==0.12.0
-RUN pip install basicsr==1.4.2
-RUN pip install gfpgan==1.3.8
-RUN pip install gradio==3.23
-RUN pip install numpy==1.23.3
-RUN pip install Pillow==9.4.0
-RUN pip install realesrgan==0.3.0
-RUN pip install torch
-RUN pip install omegaconf==2.2.3
-RUN pip install pytorch_lightning==1.9.4
-RUN pip install scikit-image==0.19.2
-RUN pip install fonts
-RUN pip install font-roboto
-RUN pip install timm==0.6.7
-RUN pip install piexif==1.1.3
-RUN pip install einops==0.4.1
-RUN pip install jsonmerge==1.8.0
-RUN pip install clean-fid==0.1.29
-RUN pip install resize-right==0.0.2
-RUN pip install torchdiffeq==0.2.3
-RUN pip install kornia==0.6.7
-RUN pip install lark==1.1.2
-RUN pip install inflection==0.5.1
-RUN pip install GitPython==3.1.30
-RUN pip install torchsde==0.2.5
-RUN pip install safetensors==0.3.0
-RUN pip install httpcore<=0.15RUN pip install fastapi==0.94.0
+# 创建名为sd的环境
+RUN /opt/miniconda/bin/conda create -n sd python=3.10.6
+RUN echo "source activate sd" > ~/.bashrc
+ENV PATH /opt/conda/envs/sd/bin:$PATH
 
-RUN cd / && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
-	mv \stable-diffusion-webui \app && cd /app
-RUN export COMMANDLINE_ARGS=--skip-torch-cuda-test
-RUN python launch.py
 
-# RUN cd / && git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git && \
-# 	mv \stable-diffusion-webui \app && cd /app && \
-# 	pip install -r requirements_versions.txt && \
-# 	cd models/Stable-diffusion && \
-# 	wget https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/resolve/main/sd-v1-4-full-ema.ckpt && \
-# 	wget -O launch.py https://raw.githubusercontent.com/eclairkk/Stable-Diffusion/master/launch_cpu.py && \
-# 	export COMMANDLINE_ARGS=--skip-torch-cuda-test && \
-#	python launch.py
-#
 
-WORKDIR /app
-CMD [ "python", "launch.py", "--no-half", "--port", "1234", "--listen" ]
+
+
+
+
+
+# 运行命令
+CMD ["/bin/sh"]
