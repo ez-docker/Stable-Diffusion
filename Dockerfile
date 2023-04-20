@@ -4,7 +4,7 @@
 FROM nvidia/cuda:12.1.0-base-ubuntu20.04
 
 
-RUN apt-get update && apt-get install -y curl wget unzip git
+RUN apt-get update && apt-get install -y curl wget unzip git libgl1-mesa-glx
 RUN wget -O /tmp/Easy-Diffusion-Linux.zip https://github.com/cmdr2/stable-diffusion-ui/releases/download/v2.5.24/Easy-Diffusion-Linux.zip
 RUN unzip /tmp/Easy-Diffusion-Linux.zip -d /
 RUN mv /easy-diffusion/ /sd
