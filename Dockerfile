@@ -1,18 +1,15 @@
+# docker build -t sd .
+# docker run --name sd -it sd
+# docker rm -f sd
 FROM nvidia/cuda:12.1.0-base-ubuntu20.04
-ENV CONDA_AUTO_UPDATE_CONDA=false
 
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    echo "Asia/Shanghai" > /etc/timezone && \
-    apt-get update && apt-get -y install curl wget git && \
-    curl -sLo /tmp/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-    chmod +x /tmp/miniconda.sh && \
-    /tmp/miniconda.sh -b -p /opt/miniconda && \
-    rm -f /tmp/miniconda.sh && \
-    ln -s /opt/miniconda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /opt/miniconda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    echo "/opt/miniconda/bin/activate" >> ~/.bashrc && \
-    /opt/miniconda/bin/conda create -n sd python=3.10.6 && \
-    echo "source activate sd" > ~/.bashrc
-ENV PATH /opt/conda/envs/sd/bin:$PATH
+
+RUN apt-get update && apt-get install -y curl wget unzip git
+RUN wget -O /tmp/Easy-Diffusion-Linux.zip https://github.com/cmdr2/stable-diffusion-ui/releases/download/v2.5.24/Easy-Diffusion-Linux.zip
+RUN unzip /tmp/Easy-Diffusion-Linux.zip -d /
+RUN mv /easy-diffusion/ /sd
+RUN chmod +x sd/*.sh
+RUN chmod +x sd/scripts/*.sh
+bash /sd/start.sh
 
 CMD ["/bin/sh"]
