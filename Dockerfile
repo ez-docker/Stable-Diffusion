@@ -12,7 +12,7 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo ". /opt/miniconda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "/opt/miniconda/bin/activate" >> ~/.bashrc && \
     source ~/.bashrc && \
-    RUN /opt/miniconda/bin/conda create -n sd python=3.10.6 && \
+    /opt/miniconda/bin/conda create -n sd python=3.10.6 && \
     echo "source activate sd" > ~/.bashrc && \
 ENV PATH /opt/conda/envs/sd/bin:$PATH
 
