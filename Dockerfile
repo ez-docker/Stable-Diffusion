@@ -10,6 +10,6 @@ RUN unzip /tmp/Easy-Diffusion-Linux.zip -d /
 RUN mv /easy-diffusion/ /sd
 RUN chmod +x sd/*.sh
 RUN chmod +x sd/scripts/*.sh
-RUN bash /sd/start.sh
+RUN . /sd/start.sh
 
 CMD ["/bin/sh"]
