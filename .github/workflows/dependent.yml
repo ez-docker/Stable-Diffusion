@@ -7,11 +7,6 @@ on:
     paths:
       - 'Dockerfile/dependent'
 
-env:
-  DOCKER_REGISTRY: docker.io
-  DOCKER_IMAGE_NAME: my-docker-image
-  DOCKER_IMAGE_TAG: ${{ github.sha }}
-
 jobs:
   push_to_registry:
     name: 编译micromamba并推送到DockerHub 
@@ -26,7 +21,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
-          registry: ${{ env.DOCKER_REGISTRY }}
+          registry: docker.io
 
       - name: 设置 Buildx
         id: buildx
