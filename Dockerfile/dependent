@@ -8,6 +8,8 @@ RUN micromamba install --yes --name base --channel conda-forge \
 
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
 RUN micromamba run pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
-    micromamba run pip install sdkit
+    micromamba run pip install sdkit && \
+    micromamba run pip cache purge
+
 
 CMD ["/bin/bash"]
