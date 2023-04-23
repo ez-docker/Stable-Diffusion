@@ -1,4 +1,4 @@
-FROM mambaorg/micromamba:focal-cuda-12.1.0
+FROM mambaorg/micromamba:jammy
 
 USER root
 
