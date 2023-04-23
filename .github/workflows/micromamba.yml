@@ -35,8 +35,9 @@ jobs:
         uses: docker/setup-buildx-action@v1
         
       - name: Print trigger time
-        run: echo "The workflow was triggered at $(date -d $(jq -r '.head_commit.timestamp' $GITHUB_EVENT_PATH) +"%Y-%m-%d %H:%M:%S")"
-        
+        run: echo "TRIGGER_TIME=$(date -d $(jq -r '.head_commit.timestamp' $GITHUB_EVENT_PATH) +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
+
+
       - name: 获取时间
         run: echo "WEATHER_REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y%m%d%H%M')" >> $GITHUB_ENV
 
@@ -49,4 +50,5 @@ jobs:
           platforms: linux/amd64
           tags: |
             eclairkk/sd:${{ env.WEATHER_REPORT_DATE }}
+            eclairkk/sd:${{ env.TRIGGER_TIME }}
             eclairkk/sd:latest
