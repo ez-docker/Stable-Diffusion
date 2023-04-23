@@ -35,7 +35,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
         
       - name: Print trigger time
-        run: echo "TRIGGER_TIME=$(date -d $(jq -r '.head_commit.timestamp' $GITHUB_EVENT_PATH) +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
+        run: echo "TRIGGER_TIME=$(date -d $(jq -r '.head_commit.timestamp' $GITHUB_EVENT_PATH) +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
 
       - name: 获取时间
