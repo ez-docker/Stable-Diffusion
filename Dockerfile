@@ -1,16 +1,13 @@
-# docker build -t sd .
-# docker run --name sd -it sd
-# docker rm -f sd
-FROM nvidia/cuda:12.1.0-base-ubuntu20.04
+FROM mambaorg/micromamba:focal-cuda-12.1.0
 
+RUN micromamba install --yes --name base --channel conda-forge \
+    python=3.10.6 \
+    uvicorn=0.21.1 \
+    fastapi=0.95.1 && \
+    micromamba clean --all --yes
 
-RUN ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo Asia/Shanghai > /etc/timezone
-RUN apt-get update && apt-get install -y curl wget unzip git libgl1-mesa-glx libglib2.0-dev
-RUN wget -O /tmp/Easy-Diffusion-Linux.zip https://github.com/cmdr2/stable-diffusion-ui/releases/download/v2.5.24/Easy-Diffusion-Linux.zip
-RUN unzip /tmp/Easy-Diffusion-Linux.zip -d /
-RUN mv /easy-diffusion/ /sd
-RUN chmod +x sd/*.sh
-RUN chmod +x sd/scripts/*.sh
-RUN ./sd/start.sh
+ARG MAMBA_DOCKERFILE_ACTIVATE=1
+RUN micromamba run pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
+    micromamba run pip install sdkit
 
-CMD ["/bin/sh"]
+CMD ["/bin/bash"]
