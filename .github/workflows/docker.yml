@@ -5,8 +5,7 @@ on:
     branches:
       - 'master'
     paths:
-      - 'Dockerfile'
-      - 'app/**/*.py'
+      - 'Dockerfile/Dockerfile'
 
 jobs:
 
