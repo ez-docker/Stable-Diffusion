@@ -1,13 +1,5 @@
-FROM mambaorg/micromamba:focal-cuda-12.1.0
-
-RUN micromamba install --yes --name base --channel conda-forge \
-    python=3.10.6 \
-    uvicorn=0.21.1 \
-    fastapi=0.95.1 && \
-    micromamba clean --all --yes
+FROM eclairkk/dependent:202304231624
 
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
-RUN micromamba run pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu && \
-    micromamba run pip install sdkit
-
+RUN git clone -b main https://github.com/AUTOMATIC1111/stable-diffusion-webui.git stable-diffusion-webui
 CMD ["/bin/bash"]
