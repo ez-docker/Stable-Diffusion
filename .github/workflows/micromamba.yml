@@ -5,7 +5,7 @@ on:
     branches:
       - 'master'
     paths:
-      - 'micromamba'
+      - 'Dockerfile/micromamba'
 
 env:
   DOCKER_REGISTRY: docker.io
