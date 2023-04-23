@@ -1,5 +1,5 @@
 FROM mambaorg/micromamba:focal-cuda-12.1.0
-
+USER root
 RUN micromamba install --yes --name base --channel conda-forge \
     python=3.10.6 \
     uvicorn=0.21.1 \
