@@ -1,4 +1,4 @@
-name: 发布 micromamba 镜像
+name: 发布 docker 镜像
 
 on:
   push:
