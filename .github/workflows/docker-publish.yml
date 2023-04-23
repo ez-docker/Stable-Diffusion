@@ -1,4 +1,4 @@
-name: Publish Docker image
+name: 发布 micromamba 镜像
 
 on:
   push:
@@ -6,12 +6,6 @@ on:
       - 'master'
     paths:
       - 'Dockerfile'
-
-env:
-  DOCKER_REGISTRY: docker.io
-  DOCKER_IMAGE_NAME: my-docker-image
-  DOCKER_IMAGE_TAG: ${{ github.sha }}
-
 
 jobs:
 
@@ -47,5 +41,5 @@ jobs:
           # platforms: linux/amd64,linux/arm64,linux/arm/v7
           platforms: linux/amd64
           tags: |
-            eclairkk/sd:${{ env.WEATHER_REPORT_DATE }}
+            eclairkk/sd:${{ github.event_time }}
             eclairkk/sd:latest
