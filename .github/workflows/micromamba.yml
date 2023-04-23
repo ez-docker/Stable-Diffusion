@@ -49,6 +49,6 @@ jobs:
           # platforms: linux/amd64,linux/arm64,linux/arm/v7
           platforms: linux/amd64
           tags: |
-            eclairkk/sd:${{ env.WEATHER_REPORT_DATE }}
-            eclairkk/sd:${{ env.TRIGGER_TIME }}
-            eclairkk/sd:latest
+            eclairkk/micromamba:${{ env.WEATHER_REPORT_DATE }}
+            eclairkk/micromamba:${{ env.TRIGGER_TIME }}
+            eclairkk/micromamba:latest
